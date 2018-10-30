@@ -7,6 +7,7 @@ module Abr
   def self.test(options)
     input_file = options[:input_file]
     output_file = options[:output_file] || 'ab_result.csv'
+    interval = options[:interval]&.to_i || 10
 
     result = open(input_file).map do |line|
       next unless line[0..1] == 'ab'
@@ -33,6 +34,7 @@ module Abr
           end
         end
       end
+      sleep interval
       result
     end
 
