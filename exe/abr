@@ -1,0 +1,2 @@
+require "abr/command"
+Abr::Command.start(ARGV)
