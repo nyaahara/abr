@@ -21,7 +21,8 @@ module Abr
             value = scan_result[0][1]
 
             key = "#{key}+" if result.has_key?(key)
-            if ['Connect', 'Processing', 'Waiting', 'Total'].include?(key)
+            case key
+            when 'Connect', 'Processing', 'Waiting', 'Total'
               values = value.split(' ').map {|val| val.strip}
               result["#{key} min"] = values[0]
               result["#{key} mean"] = values[1]
