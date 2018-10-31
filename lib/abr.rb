@@ -20,6 +20,11 @@ module Abr
             key = scan_result[0][0]
             value = scan_result[0][1]
 
+            if result.keys.last == 'Failed requests' && result[result.keys.last] != '0'
+              result[result.keys.last] = "#{result[result.keys.last]}#{value}"
+              next
+            end
+
             key = "#{key}+" if result.has_key?(key)
             case key
             when 'Connect', 'Processing', 'Waiting', 'Total'
@@ -39,10 +44,11 @@ module Abr
       result
     end
 
+    headers = result.map {|list| list.keys}.flatten.uniq
     CSV.open(output_file, 'w') do |csv|
-      csv << result.first.keys
+      csv << headers
       result.each do |r|
-        csv << r.values
+        csv << headers.map {|column_name| r[column_name] || '---'}
       end
     end
   end
